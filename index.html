@@ -10,12 +10,13 @@
     <!-- Header Section -->
     <header>
         <nav class="container">
-            <div class="hamburger">
+            <a href="#" class="logo"></a>
+            <button class="nav-toggle" aria-label="Toggle navigation menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
-            <ul>
+            </button>
+            <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#portfolio">Portfolio</a></li>
@@ -168,5 +169,49 @@
             <a href="#" aria-label="Twitter">Twitter</a>
         </div>
     </footer>
+    <script>
+        // Mobile Navigation Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const navItems = document.querySelectorAll('.nav-links a');
+
+            function toggleNav() {
+                header.classList.toggle('nav-open');
+                document.body.classList.toggle('nav-active');
+            }
+
+            navToggle.addEventListener('click', toggleNav);
+
+            // Close menu when clicking links
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    if (header.classList.contains('nav-open')) {
+                        toggleNav();
+                    }
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!header.contains(e.target) && header.classList.contains('nav-open')) {
+                    toggleNav();
+                }
+            });
+
+            // Handle resize
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (window.innerWidth > 768 && header.classList.contains('nav-open')) {
+                        header.classList.remove('nav-open');
+                        document.body.classList.remove('nav-active');
+                    }
+                }, 250);
+            });
+        });
+    </script>
 </body>
 </html>
